@@ -10,6 +10,8 @@ const {
   GraphQLString,
 } = graphql;
 const Ingredient = require("../models/Ingredient")
+const Cocktail = require("../models/cocktail");
+
 const IngredientType = new GraphQLObjectType({
   name: "IngredientType",
   fields: () => ({
@@ -19,7 +21,7 @@ const IngredientType = new GraphQLObjectType({
     cocktails: {
       type: new GraphQLList(CocktailType),
       resolve(parentValue) {
-        return Ingredient.findDrinks(parentValue.id)
+        return parentValue.cocktails.map(c => Cocktail.findById(c))
       }
     }
   }),
