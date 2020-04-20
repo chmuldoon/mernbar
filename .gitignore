@@ -1,3 +1,5 @@
 node_modules
 node_modules
 config/keys.js
+data
+data/IngredientsList.js
