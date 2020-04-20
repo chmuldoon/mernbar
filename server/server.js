@@ -6,14 +6,21 @@ const bodyParser = require("body-parser");
 // const schema = require("./schema/schema");
 const db = require("../config/keys").mongoURI;
 const app = express();
-
+const schema = require('./schema/schema')
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch((err) => console.log(err));
 
 app.use(bodyParser.json());
-
+app.use(
+  "/graphql",
+  expressGraphQL({
+    schema,
+    graphiql: true,
+  })
+);
+//seeding only
 app.use(`/api/tests`, require("../routes/api/tests"))
 
 // const webpackMiddleware = require("webpack-dev-middleware");
