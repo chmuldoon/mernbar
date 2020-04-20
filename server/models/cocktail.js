@@ -29,10 +29,6 @@ const CocktailSchema = new mongoose.Schema({
   photo: {
     type: String,
     required: true,
-  },
-  usingIds: {
-    type: [String],
-    required: true
   }
 });
 
