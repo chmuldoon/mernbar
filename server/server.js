@@ -4,6 +4,10 @@ const expressGraphQL = require("express-graphql");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 // const schema = require("./schema/schema");
+const session = require("express-session");
+const passport = require("passport");
+const passportConfig = require("./services/auth");
+const MongoStore = require("connect-mongo")(session);
 const db = require("../config/keys").mongoURI;
 const app = express();
 const schema = require('./schema/schema')
@@ -12,6 +16,19 @@ mongoose
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch((err) => console.log(err));
 
+app.use(
+  session({
+    resave: true,
+    saveUninitialized: true,
+    secret: "aaabbbccc",
+    store: new MongoStore({
+      url: db,
+      autoReconnect: true,
+    }),
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser.json());
 app.use(
   "/graphql",
