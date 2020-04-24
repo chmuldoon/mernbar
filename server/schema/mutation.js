@@ -1,6 +1,6 @@
 const graphql = require("graphql");
-const { GraphQLObjectType, GraphQLString } = graphql;
-const UserType = require("./types/user_type");
+const { GraphQLObjectType, GraphQLString, GraphQLID } = graphql;
+const UserType = require("./user_type");
 const AuthService = require("../services/auth");
 const mutation = new GraphQLObjectType({
   name: "Mutation",
@@ -33,6 +33,17 @@ const mutation = new GraphQLObjectType({
         return AuthService.login({ email, password, req });
       },
     },
+    addIngredient: {
+      type: UserType,
+      args: {
+        ingId: { type: GraphQLID },
+        userId: { type: GraphQLID }
+
+      },
+      resolve(parentValue, { ingId, userId }){
+        return User.
+      }
+    }
   },
 });
 
