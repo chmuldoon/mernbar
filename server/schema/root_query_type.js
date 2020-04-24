@@ -4,11 +4,19 @@ const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull } = graphql;
 const IngredientType = require("./ingredient_type")
 const Ingredient = require('../models/Ingredient')
 const CocktailType = require("./cocktail_type");
+const UserType = require("./user_type");
+
 const Cocktail = require('../models/cocktail')
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: () => ({
+    currentUser: {
+        type: UserType,
+        resolve(parentValue, arg, req){
+          return req.user;
+        }
+    },
     ingredients: {
       type: new GraphQLList(IngredientType),
       resolve() {
