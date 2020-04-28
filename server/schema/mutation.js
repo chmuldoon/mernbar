@@ -1,6 +1,10 @@
 const graphql = require("graphql");
 const { GraphQLObjectType, GraphQLString, GraphQLID } = graphql;
 const UserType = require("./user_type");
+const mongoose = require("mongoose");
+
+// const User = require("../models/user")
+const User = mongoose.model('user')
 const AuthService = require("../services/auth");
 const mutation = new GraphQLObjectType({
   name: "Mutation",
@@ -37,13 +41,22 @@ const mutation = new GraphQLObjectType({
       type: UserType,
       args: {
         ingId: { type: GraphQLID },
-        userId: { type: GraphQLID }
-
+        userId: { type: GraphQLID },
       },
-      resolve(parentValue, { ingId, userId }){
-        return User.
-      }
-    }
+      resolve(parentValue, { ingId, userId }) {
+        return User.addIngredient(ingId, userId);
+      },
+    },
+    removeIngredient: {
+      type: UserType,
+      args: {
+        ingId: { type: GraphQLID },
+        userId: { type: GraphQLID },
+      },
+      resolve(parentValue, { ingId, userId }) {
+        return User.removeIngredient(ingId, userId);
+      },
+    },
   },
 });
 
