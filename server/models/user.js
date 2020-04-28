@@ -49,5 +49,28 @@ UserSchema.methods.comparePassword = function comparePassword(
     cb(err, isMatch);
   });
 };
+UserSchema.statics.addIngredient = function(ingId, userId){
+  const User = mongoose.model("user");
+  return User.findById(userId)
+    .then(user => {
+      user.ingredients.push(ingId)
+      return user.save()
+    })
+
+}
+UserSchema.statics.removeIngredient = function (ingId, userId) {
+  const User = mongoose.model("user");
+  return User.findById(userId).then((user) => {
+    let newIngs = user.ingredients.slice();
+    user.ingredients = newIngs
+      .slice(0, newIngs.indexOf(ingId))
+      .concat(newIngs.slice(newIngs.indexOf(ingId) + 1));
+    return user.save();
+    
+  });
+};
+
+
+
 
 module.exports = User = mongoose.model("user", UserSchema);
