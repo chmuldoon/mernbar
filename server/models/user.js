@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: "ingredient",
   },
+  mustHave: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "ingredient",
+  },
   cocktails: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "cocktails",
@@ -58,6 +62,16 @@ UserSchema.statics.addIngredient = function(ingId, userId){
     })
 
 }
+UserSchema.statics.addMustHave = function (ingId, userId) {
+  const User = mongoose.model("user");
+  return User.findById(userId).then((user) => {
+    if(!user.ingredients.includes(ingId)){
+      user.ingredients.push(ingId)
+    }
+    user.mustHave.push(ingId);
+    return user.save();
+  });
+};
 UserSchema.statics.removeIngredient = function (ingId, userId) {
   const User = mongoose.model("user");
   return User.findById(userId).then((user) => {
@@ -65,8 +79,25 @@ UserSchema.statics.removeIngredient = function (ingId, userId) {
     user.ingredients = newIngs
       .slice(0, newIngs.indexOf(ingId))
       .concat(newIngs.slice(newIngs.indexOf(ingId) + 1));
+
+    if(user.mustHave.includes(ingId)){
+      let newMustHave = user.mustHave.slice();
+      user.mustHave = newMustHave
+        .slice(0, newMustHave.indexOf(ingId))
+        .concat(newMustHave.slice(newMustHave.indexOf(ingId) + 1));
+    }
     return user.save();
     
+  });
+};
+UserSchema.statics.removeMustHave = function (ingId, userId) {
+  const User = mongoose.model("user");
+  return User.findById(userId).then((user) => {
+    let newMustHave = user.mustHave.slice();
+    user.mustHave = newMustHave
+      .slice(0, newMustHave.indexOf(ingId))
+      .concat(newMustHave.slice(newMustHave.indexOf(ingId) + 1));
+    return user.save();
   });
 };
 

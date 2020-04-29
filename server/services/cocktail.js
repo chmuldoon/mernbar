@@ -3,24 +3,29 @@ const mongoose = require("mongoose");
 //and outputs a list of cocktails
 const Ingredient = mongoose.model('ingredient')
 const Cocktail = mongoose.model("cocktail");
+// const Igredient = require('../models/Ingredient')
 
-async function userCocktails(list){
+async function _userCocktails(list, mustHave){
+  if (list.length == 0) return [];
+  let range = mustHave.length > 0 ? mustHave : list
   let output = []
+  let outputHelper = {}
   // console.log(list)
-  list.forEach(ing => {
-    Ingredient.findById(ing).then(i => {
-      i.cocktails.forEach(c => {
-        if(!output.includes(c)){
-          output.push(c)
-        }
-      })
-      
-      console.log(output)
-    })
-      console.log(output);
+  let objs = await Ingredient.find( { _id : { $in: range}})
+  let cocktails = objs.map(i => i.cocktails)
+  cocktails.forEach((c) => {
+    output = output.concat(c);
+  });
+  output = output.map(c => c.toString())
 
-  })
-
+  return [...new Set(output)]
+  
 }
 
-module.exports = { userCocktails };
+function listMaker(list, mustHave){
+  return _userCocktails(list, mustHave)
+    .then((total) => {
+      return total.map((c) => Cocktail.findById(c));
+    }); 
+}
+module.exports = { listMaker };

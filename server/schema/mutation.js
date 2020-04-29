@@ -47,6 +47,16 @@ const mutation = new GraphQLObjectType({
         return User.addIngredient(ingId, userId);
       },
     },
+    addMustHave: {
+      type: UserType,
+      args: {
+        ingId: { type: GraphQLID },
+        userId: { type: GraphQLID },
+      },
+      resolve(parentValue, { ingId, userId }) {
+        return User.addMustHave(ingId, userId);
+      },
+    },
     removeIngredient: {
       type: UserType,
       args: {
@@ -55,6 +65,16 @@ const mutation = new GraphQLObjectType({
       },
       resolve(parentValue, { ingId, userId }) {
         return User.removeIngredient(ingId, userId);
+      },
+    },
+    removeMustHave: {
+      type: UserType,
+      args: {
+        ingId: { type: GraphQLID },
+        userId: { type: GraphQLID },
+      },
+      resolve(parentValue, { ingId, userId }) {
+        return User.removeMustHave(ingId, userId);
       },
     },
   },
