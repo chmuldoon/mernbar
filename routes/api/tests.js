@@ -1,31 +1,33 @@
 const express = require("express");
 const router = express.Router();
 // const { check, validationResult } = require("express-validator");
-// const Ingredient = require("../../server/models/Ingredient")
-// const Cocktail = require("../../server/models/cocktail");
+const Ingredient = require("../../server/models/Ingredient")
+const Cocktail = require("../../server/models/cocktail");
 
 // const IngredientsList = require("../../data/IngredientsList")
 // const CocktailList = require("../../data/CocktailList")
 // router.post("/", async (req, res) => {
-//   const cocktails = await Cocktail.find()
+//   const ingredients = await Ingredient.find()
+//   console.log(ingredients.length)
+//   const cocktails = await Cocktail.find();
+//   let ingObj = {}
+//   ingredients.forEach(i => ingObj[i.name] = i)
+
 //   try {
 //     // const ingredients = await Ingredient.find();
 //     // console.log(ingredients)
 //     // console.log(IngredientsList[0].name);
-//     IngredientsList.forEach(ing => {
-
-//       let ids = cocktails
-//                   .filter(c => c.using.includes(ing.name))
-//                   .map(c => c._id)
-//       const newIng = new Ingredient({
-//         name: ing.name,
-//         img: ing.img,
-//         cocktails: ids
-//       });
-//       newIng.save()
+//     // IngredientsList.forEach(ing => {
+//     cocktails.forEach(c => {
+//       c["using2"] = c["using"].map(u => ingObj[u]._id)
+//       c.save()
 //     })
-//     const ingredients = await Ingredient.find();
-//     res.json(ingredients);
+
+//     res.json(cocktails)
+
+    
+  
+
 //   } catch (err) {
 //     console.error(err.message);
 //     res.status(500).send("server err");

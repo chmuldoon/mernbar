@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-
-const CocktailSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+const CocktailSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -26,10 +26,20 @@ const CocktailSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  using2: {
+    type: [Schema.Types.ObjectId],
+    ref: 'ingredient'
+  },
   photo: {
     type: String,
     required: true,
-  }
+  },
 });
+
+CocktailSchema.statics.findIngredients = function(id){
+  return this.findById(id)
+    .populate("using2")
+    .then(cocktail => cocktail.using2)
+}
 
 module.exports = Cocktail = mongoose.model("cocktail", CocktailSchema);

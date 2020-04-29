@@ -6,9 +6,11 @@ const {
   GraphQLID,
   GraphQLInt,
   GraphQLString,
-  GraphQLS
 } = graphql;
 // const Cocktail = mongoose.model("cocktail");
+const Cocktail = require("../models/cocktail")
+const IngredientType = require("./ingredient_type")
+const Ingredient = require("../models/Ingredient");
 
 const CocktailType = new GraphQLObjectType({
   name: "CocktailType",
@@ -21,6 +23,20 @@ const CocktailType = new GraphQLObjectType({
     measurements: { type: new GraphQLList(GraphQLString) },
     using: { type: new GraphQLList(GraphQLString) },
     photo: { type: GraphQLString },
+    using2: { 
+      type: new GraphQLList(require('./ingredient_type')),
+      //look up why this couldnt be just IngredientType imported earlier
+      //probably something aboyt
+      resolve(parentValue){
+        return parentValue.using2.map(i => Ingredient.findById(i))
+      }
+    }
+    // using2: {
+    //   type: new GraphQLList(IngredientType),
+    //   resolve(parentValue) {
+    //     return parentValue.using2.map(i => Ingredient.findById(i))
+    //   }
+    // }
   }),
 });
 

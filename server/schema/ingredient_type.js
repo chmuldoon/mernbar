@@ -9,7 +9,6 @@ const {
   GraphQLInt,
   GraphQLString,
 } = graphql;
-const Ingredient = require("../models/Ingredient")
 const Cocktail = require("../models/cocktail");
 
 const IngredientType = new GraphQLObjectType({
