@@ -31,13 +31,13 @@ const RootQuery = new GraphQLObjectType({
         return Cocktail.find({});
       },
     },
-    // userCocktails: {
-    //   type: new GraphQLList(CocktailType),
-    //   args: { list: { type: new GraphQLList(GraphQLID)}},
-    //   resolve(parentValue, {list}) {
-    //     return CocktailService.userCocktails(list)
-    //   }
-    // },
+    cocktail: {
+      type: CocktailType,
+      args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+      resolve(parentValue, { id }) {
+        return Cocktail.findById(id);
+      },
+    },
     ingredient: {
       type: IngredientType,
       args: { id: { type: new GraphQLNonNull(GraphQLID) } },

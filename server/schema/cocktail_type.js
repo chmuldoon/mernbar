@@ -26,7 +26,7 @@ const CocktailType = new GraphQLObjectType({
     using2: { 
       type: new GraphQLList(require('./ingredient_type')),
       //look up why this couldnt be just IngredientType imported earlier
-      //probably something aboyt
+      //probably something about closures etc 
       resolve(parentValue){
         return parentValue.using2.map(i => Ingredient.findById(i))
       }
