@@ -29,7 +29,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use(
   "/graphql",
   expressGraphQL({
@@ -38,11 +38,11 @@ app.use(
   })
 );
 //seeding only
-app.use(`/api/tests`, require("../routes/api/tests"))
+// app.use(`/api/tests`, require("../routes/api/tests"))
 
-// const webpackMiddleware = require("webpack-dev-middleware");
-// const webpack = require("webpack");
-// const webpackConfig = require("../webpack.config.js");
-// app.use(webpackMiddleware(webpack(webpackConfig)));
+const webpackMiddleware = require("webpack-dev-middleware");
+const webpack = require("webpack");
+const webpackConfig = require("../webpack.config.js");
+app.use(webpackMiddleware(webpack(webpackConfig)));
 
 module.exports = app;
