@@ -4,3 +4,4 @@ config/keys.js
 data
 data/IngredientsList.js
 node_modules
+package-lock.json

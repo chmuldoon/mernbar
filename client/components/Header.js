@@ -5,7 +5,7 @@ export class Header extends Component {
   render() {
     console.log(this.props.data)
     return (
-      <div>
+      <div className="topBar">
         Header
       </div>
     )
